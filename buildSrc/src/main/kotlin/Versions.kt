@@ -17,6 +17,7 @@ object Versions {
     const val picasso = "2.5.2"
     const val okhttpLoggingInterceptor = "3.11.0"
     const val dagger = "2.21"
+    const val room = "2.0.0-rc01"
 
     //Unit Testing
     const val junit = "4.12"

@@ -14,17 +14,17 @@
  * limitations under the License.
  *
  * */
-package com.github.hadilq.movieschallenge.domain.repository
+package com.github.hadilq.movieschallenge.data.api.dto
 
-import androidx.paging.PagedList
-import com.github.hadilq.movieschallenge.domain.entity.MovieEntity
-import com.github.hadilq.movieschallenge.domain.entity.ResultState
-import io.reactivex.Flowable
+import com.google.gson.annotations.SerializedName
 
-interface MovieRepository {
-
-    /**
-     * Returns a stream of ResultStates to load movies by the given [apiKey].
-     */
-    fun loadMovies(apiKey: String): Flowable<ResultState<PagedList<MovieEntity>>>
-}
+data class MovieDto(
+    @SerializedName("id") val id: Long,
+    @SerializedName("original_name") val originalName: String,
+    @SerializedName("name") val name: String,
+    @SerializedName("popularity") val popularity: Float,
+    @SerializedName("vote_count") val voteCount: Int,
+    @SerializedName("backdrop_path") val backdropPath: String?,
+    @SerializedName("poster_path") val posterPath: String,
+    @SerializedName("vote_average") val voteAverage: Float
+)

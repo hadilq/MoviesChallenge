@@ -17,8 +17,8 @@
 package com.github.hadilq.movieschallenge.domain.usecase.impl
 
 import androidx.paging.PagedList
-import com.github.hadilq.movieschallenge.domain.MovieEntity
-import com.github.hadilq.movieschallenge.domain.ResultState
+import com.github.hadilq.movieschallenge.domain.entity.MovieEntity
+import com.github.hadilq.movieschallenge.domain.entity.ResultState
 import com.github.hadilq.movieschallenge.domain.repository.ApiKeyRepository
 import com.github.hadilq.movieschallenge.domain.repository.MovieRepository
 import com.github.hadilq.movieschallenge.domain.usecase.GetMovies

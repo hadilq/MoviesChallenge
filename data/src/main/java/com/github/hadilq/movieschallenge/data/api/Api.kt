@@ -14,17 +14,22 @@
  * limitations under the License.
  *
  * */
-package com.github.hadilq.movieschallenge.domain.repository
+package com.github.hadilq.movieschallenge.data.api
 
-import androidx.paging.PagedList
-import com.github.hadilq.movieschallenge.domain.entity.MovieEntity
-import com.github.hadilq.movieschallenge.domain.entity.ResultState
-import io.reactivex.Flowable
+import com.github.hadilq.movieschallenge.data.api.dto.PopularDto
+import io.reactivex.Single
+import retrofit2.http.GET
+import retrofit2.http.Query
 
-interface MovieRepository {
+interface Api {
 
     /**
-     * Returns a stream of ResultStates to load movies by the given [apiKey].
+     * Gets popular movies of the specific [page].
      */
-    fun loadMovies(apiKey: String): Flowable<ResultState<PagedList<MovieEntity>>>
+    @GET("/tv/popular")
+    fun getPolular(
+        @Query("api_key") apiKey: String,
+        @Query("page") page: Int,
+        @Query("language") language: String = "en-US"
+    ): Single<PopularDto>
 }

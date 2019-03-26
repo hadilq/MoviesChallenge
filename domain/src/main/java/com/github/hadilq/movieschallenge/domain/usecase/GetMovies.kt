@@ -17,8 +17,8 @@
 package com.github.hadilq.movieschallenge.domain.usecase
 
 import androidx.paging.PagedList
-import com.github.hadilq.movieschallenge.domain.MovieEntity
-import com.github.hadilq.movieschallenge.domain.ResultState
+import com.github.hadilq.movieschallenge.domain.entity.MovieEntity
+import com.github.hadilq.movieschallenge.domain.entity.ResultState
 import io.reactivex.Flowable
 
 interface GetMovies {
