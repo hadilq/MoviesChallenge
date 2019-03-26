@@ -24,6 +24,7 @@ object Versions {
     const val mockito = "1.4.0"
     const val androidXLifecycleLib = "2.0.0-rc01"
     const val robolectric = "3.8"
+    const val androidXTesting = "2.0.0"
 
     //Acceptance Testing
     const val androidXTest = "1.1.2-alpha01"

@@ -57,6 +57,7 @@ class MovieRepositoryImpl(
     ) : PagedList.BoundaryCallback<MovieEntity>() {
 
         private var page = 1
+        private var endOfList = false
 
         override fun onZeroItemsLoaded() {
             page = 1
@@ -68,8 +69,15 @@ class MovieRepositoryImpl(
         }
 
         private fun request(page: Int) {
+            if (endOfList) {
+                return
+            }
             popularMovies.call(apiKey, page)
                 .subscribe({
+                    if (it.totalPages <= page) {
+                        endOfList = true
+                        processor.onNext(Loading(false))
+                    }
                     movies.save(it)
                 }) {
                     processor.onNext(Error(it))
