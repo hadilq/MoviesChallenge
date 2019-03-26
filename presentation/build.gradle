@@ -1,5 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
@@ -20,8 +21,32 @@ android {
 }
 
 dependencies {
+    implementation project(':domain')
+
+    kapt Depends.lifecycleCompiler
+
     implementation Depends.appcompat
-    testImplementation Depends.junit
+    implementation Depends.coreKtx
+    implementation Depends.lifecycle
+    implementation Depends.constraintLayout
+    implementation Depends.recycler
+    implementation Depends.design
+    implementation Depends.picasso
+    implementation Depends.rxJava
+    implementation Depends.dagger
+    implementation Depends.daggerAndroid
+    implementation Depends.annotations
+    implementation(Depends.paging, {
+        exclude group: 'androidx.annotation', module: 'annotation'
+    })
+
     androidTestImplementation Depends.testRunner
-    androidTestImplementation Depends.espressoCore
+    androidTestImplementation(Depends.espressoCore, {
+        exclude group: 'androidx.annotation', module: 'annotation'
+    })
+    androidTestImplementation Depends.annotations
+
+    testImplementation Depends.junit
+    testImplementation Depends.coreTesting
+    testImplementation Depends.mockito
 }

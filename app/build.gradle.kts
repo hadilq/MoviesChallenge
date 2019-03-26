@@ -32,10 +32,15 @@ android {
 dependencies {
     kapt(Depends.daggerCompiler)
     kapt(Depends.daggerProcessor)
-    kapt(Depends.archComponentsCompiler)
+    kapt(Depends.lifecycleCompiler)
+
+    implementation(project(":presentation"))
+    implementation(project(":data"))
+    implementation(project(":domain"))
 
     implementation(Depends.kotlin)
     implementation(Depends.appcompat)
+    implementation(Depends.lifecycle)
     implementation(Depends.coreKtx)
     implementation(Depends.constraintLayout)
 
