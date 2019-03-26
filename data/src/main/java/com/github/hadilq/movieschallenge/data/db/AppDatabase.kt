@@ -14,13 +14,16 @@
  * limitations under the License.
  *
  * */
-package com.github.hadilq.movieschallenge.domain
+package com.github.hadilq.movieschallenge.data.db
 
-data class MovieEntity(
-    val id: Long,
-    val name: String,
-    val popularity: Float,
-    val voteCount: Int,
-    val voteAverage: Int,
-    val backdropPath: String
-)
+import androidx.room.Database
+import androidx.room.RoomDatabase
+import com.github.hadilq.movieschallenge.data.db.dao.MovieDao
+import com.github.hadilq.movieschallenge.data.db.table.MovieTable
+
+
+@Database(entities = [MovieTable::class], version = 1, exportSchema = false)
+abstract class AppDatabase : RoomDatabase() {
+
+    abstract fun movieDao(): MovieDao
+}

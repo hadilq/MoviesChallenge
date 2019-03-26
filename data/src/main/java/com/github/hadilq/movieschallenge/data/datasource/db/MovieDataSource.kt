@@ -14,17 +14,26 @@
  * limitations under the License.
  *
  * */
-package com.github.hadilq.movieschallenge.domain.repository
+package com.github.hadilq.movieschallenge.data.datasource.db
 
-import androidx.paging.PagedList
+import androidx.paging.DataSource
+import com.github.hadilq.movieschallenge.data.datasource.api.PopularMovieDataSource
 import com.github.hadilq.movieschallenge.domain.entity.MovieEntity
-import com.github.hadilq.movieschallenge.domain.entity.ResultState
-import io.reactivex.Flowable
 
-interface MovieRepository {
+interface MovieDataSource {
 
     /**
-     * Returns a stream of ResultStates to load movies by the given [apiKey].
+     * Returns the popular movies.
      */
-    fun loadMovies(apiKey: String): Flowable<ResultState<PagedList<MovieEntity>>>
+    fun popular(): DataSource.Factory<Int, MovieEntity>
+
+    /**
+     * Returns every available movies.
+     */
+    fun all(): List<MovieEntity>
+
+    /**
+     * Saves the list of popular movies.
+     */
+    fun save(list: PopularMovieDataSource.MoviesList)
 }

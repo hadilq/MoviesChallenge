@@ -20,8 +20,30 @@ android {
 }
 
 dependencies {
-    implementation Depends.appcompat
+    implementation project(':domain')
+
+    kapt Depends.roomCompiler
+
+    implementation Depends.kotlin
+    implementation Depends.retrofit
+    implementation Depends.retrofitGsonConverter
+    implementation Depends.rxJava
+    implementation Depends.annotations
+    implementation(Depends.paging, {
+        exclude group: 'androidx.annotation', module: 'annotation'
+    })
+    implementation Depends.pagingRx
+    implementation Depends.room
+    implementation(Depends.roomRuntime, {
+        exclude group: 'androidx.annotation', module: 'annotation'
+    })
+
+    androidTestImplementation(Depends.espressoCore, {
+        exclude group: 'androidx.annotation', module: 'annotation'
+    })
+    androidTestImplementation Depends.annotations
+
     testImplementation Depends.junit
-    androidTestImplementation Depends.testRunner
-    androidTestImplementation Depends.espressoCore
+    testImplementation Depends.roomTesting
+    testImplementation Depends.mockito
 }

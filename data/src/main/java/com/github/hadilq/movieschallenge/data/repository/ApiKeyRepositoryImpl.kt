@@ -14,10 +14,11 @@
  * limitations under the License.
  *
  * */
-package com.github.hadilq.movieschallenge.domain
+package com.github.hadilq.movieschallenge.data.repository
 
-sealed class ResultState<T>
+import com.github.hadilq.movieschallenge.domain.repository.ApiKeyRepository
 
-class Loading<T>(val loading: Boolean) : ResultState<T>()
-class Error<T>(val throwable: Throwable) : ResultState<T>()
-class Success<T>(val data: T) : ResultState<T>()
+class ApiKeyRepositoryImpl : ApiKeyRepository {
+
+    override fun apiKey(): String = "5d967c7c335764f39b1efbe9c5de9760"
+}

@@ -14,17 +14,23 @@
  * limitations under the License.
  *
  * */
-package com.github.hadilq.movieschallenge.domain.repository
+package com.github.hadilq.movieschallenge.data.db.dao
 
-import androidx.paging.PagedList
-import com.github.hadilq.movieschallenge.domain.entity.MovieEntity
-import com.github.hadilq.movieschallenge.domain.entity.ResultState
-import io.reactivex.Flowable
+import androidx.paging.DataSource
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.Query
+import com.github.hadilq.movieschallenge.data.db.table.MovieTable
 
-interface MovieRepository {
+@Dao
+interface MovieDao {
 
-    /**
-     * Returns a stream of ResultStates to load movies by the given [apiKey].
-     */
-    fun loadMovies(apiKey: String): Flowable<ResultState<PagedList<MovieEntity>>>
+    @Query("SELECT * FROM movie")
+    fun loadAll(): DataSource.Factory<Int, MovieTable>
+
+    @Query("SELECT * FROM movie")
+    fun all(): List<MovieTable>
+
+    @Insert
+    fun save(vararg movie: MovieTable)
 }

@@ -14,17 +14,10 @@
  * limitations under the License.
  *
  * */
-package com.github.hadilq.movieschallenge.domain.repository
+package com.github.hadilq.movieschallenge.domain.entity
 
-import androidx.paging.PagedList
-import com.github.hadilq.movieschallenge.domain.entity.MovieEntity
-import com.github.hadilq.movieschallenge.domain.entity.ResultState
-import io.reactivex.Flowable
+sealed class ResultState<T>
 
-interface MovieRepository {
-
-    /**
-     * Returns a stream of ResultStates to load movies by the given [apiKey].
-     */
-    fun loadMovies(apiKey: String): Flowable<ResultState<PagedList<MovieEntity>>>
-}
+class Loading<T>(val loading: Boolean) : ResultState<T>()
+class Error<T>(val throwable: Throwable) : ResultState<T>()
+class Success<T>(val data: T) : ResultState<T>()

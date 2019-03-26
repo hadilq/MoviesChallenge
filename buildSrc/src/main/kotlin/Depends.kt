@@ -21,11 +21,16 @@ object Depends {
     const val retrofitGsonConverter = "com.squareup.retrofit2:converter-gson:${Versions.retrofit}"
     const val retrofitRxJava2Adapter = "com.squareup.retrofit2:adapter-rxjava2:${Versions.retrofit}"
     const val okhttpLoggingInterceptor = "com.squareup.okhttp3:logging-interceptor:${Versions.okhttpLoggingInterceptor}"
+    const val annotations = "androidx.annotation:annotation:1.0.0-rc01"
+    const val room = "androidx.room:room-common:${Versions.room}"
+    const val roomRuntime = "androidx.room:room-runtime:${Versions.room}"
+    const val roomCompiler = "androidx.room:room-compiler:${Versions.room}"
 
     const val kotlinTest = "org.jetbrains.kotlin:kotlin-test-junit:${Versions.kotlin}"
     const val robolectric = "org.robolectric:robolectric:${Versions.robolectric}"
     const val junit = "junit:junit:${Versions.junit}"
     const val mockito = "com.nhaarman:mockito-kotlin:${Versions.mockito}"
+    const val roomTesting = "androidx.room:room-testing:${Versions.room}"
 
     const val testRunner = "androidx.test:runner:${Versions.androidXTest}"
     const val testRules = "androidx.test:rules:${Versions.androidXTest}"
