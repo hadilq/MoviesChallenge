@@ -17,6 +17,7 @@ env:
   - ANDROID_BUILD_TOOLS_VERSION=28.0.3
   - ANDROID_EMU_API_LEVEL=22
   - ANDROID_ABI=armeabi-v7a
+  - ANDROID_TARGET=android-$ANDROID_EMU_API_LEVEL
 before_script:
   - echo no | android create avd --force -n test -t $ANDROID_TARGET --abi $ANDROID_ABI
   - emulator -avd test -no-skin -no-audio -no-window &
