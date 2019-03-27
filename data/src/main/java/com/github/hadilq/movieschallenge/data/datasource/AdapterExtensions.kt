@@ -35,8 +35,8 @@ fun MovieDto.map() = MovieEntity(
     popularity = popularity,
     voteCount = voteCount,
     voteAverage = voteAverage,
-    backdropPath = backdropPath,
-    posterPath = posterPath
+    backdropPath = backdropPath?.mapToBackdropUrl(),
+    posterPath = posterPath.mapToPosterUrl()
 )
 
 fun MovieTable.map() = MovieEntity(
@@ -45,8 +45,8 @@ fun MovieTable.map() = MovieEntity(
     popularity = popularity,
     voteCount = voteCount,
     voteAverage = voteAverage,
-    backdropPath = backdropPath,
-    posterPath = posterPath
+    backdropPath = backdropPath?.mapToBackdropUrl(),
+    posterPath = posterPath.mapToPosterUrl()
 )
 
 fun PopularMovieDataSource.MoviesList.map(): List<MovieTable> = ArrayList<MovieTable>().also { list ->
@@ -59,6 +59,11 @@ fun MovieEntity.map() = MovieTable(
     popularity = popularity,
     voteCount = voteCount,
     voteAverage = voteAverage,
-    backdropPath = backdropPath,
-    posterPath = posterPath
+    backdropPath = backdropPath?.mapFromBackdropUrl(),
+    posterPath = posterPath.mapFromPosterUrl()
 )
+
+fun String.mapToBackdropUrl() = "https://image.tmdb.org/t/p/w500$this"
+fun String.mapToPosterUrl() = "https://image.tmdb.org/t/p/original$this"
+fun String.mapFromBackdropUrl() = removePrefix("https://image.tmdb.org/t/p/w500")
+fun String.mapFromPosterUrl() = removePrefix("https://image.tmdb.org/t/p/original")
