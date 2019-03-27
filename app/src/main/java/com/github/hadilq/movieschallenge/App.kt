@@ -18,12 +18,19 @@ package com.github.hadilq.movieschallenge
 
 import com.github.hadilq.movieschallenge.di.app.DaggerAppComponent
 import dagger.android.AndroidInjector
+import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.DaggerApplication
+import javax.inject.Inject
 
 class App : DaggerApplication() {
 
-    private val applicationInjector by lazy { DaggerAppComponent.builder().create(this) }
+    @Inject
+    lateinit var applicationInjector: DispatchingAndroidInjector<App>
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> = applicationInjector
 
+    override fun onCreate() {
+        DaggerAppComponent.builder().create(this).inject(this)
+        super.onCreate()
+    }
 }

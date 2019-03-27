@@ -35,6 +35,9 @@ dependencies {
     kapt(Depends.lifecycleCompiler)
     kapt(Depends.roomCompiler)
 
+    kaptAndroidTest(Depends.daggerCompiler)
+    kaptAndroidTest(Depends.daggerProcessor)
+
     implementation(project(":presentation"))
     implementation(project(":data"))
     implementation(project(":domain"))
@@ -63,4 +66,6 @@ dependencies {
     androidTestImplementation(Depends.testRunner)
     androidTestImplementation(Depends.testRules)
     androidTestImplementation(Depends.espressoCore)
+    androidTestImplementation(Depends.mockito)
+    androidTestImplementation(Depends.dexmaker)
 }

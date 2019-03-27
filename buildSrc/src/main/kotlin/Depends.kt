@@ -30,6 +30,7 @@ object Depends {
     const val robolectric = "org.robolectric:robolectric:${Versions.robolectric}"
     const val junit = "junit:junit:${Versions.junit}"
     const val mockito = "com.nhaarman:mockito-kotlin:${Versions.mockito}"
+    const val dexmaker = "com.linkedin.dexmaker:dexmaker-mockito:2.19.0"
     const val roomTesting = "androidx.room:room-testing:${Versions.room}"
     const val coreTesting = "androidx.arch.core:core-testing:${Versions.androidXTesting}"
 
