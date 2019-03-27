@@ -24,7 +24,6 @@ import com.github.hadilq.movieschallenge.domain.entity.*
 import com.github.hadilq.movieschallenge.domain.repository.MovieRepository
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
-import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.processors.PublishProcessor
@@ -62,7 +61,6 @@ class MovieRepositoryImpl(
 
         boundaryCallback = BoundaryCallback(refresh, processor, disposables)
         return RxPagedListBuilder(factory, config)
-            .setFetchScheduler(Schedulers.computation())
             .setBoundaryCallback(boundaryCallback)
             .buildFlowable(BackpressureStrategy.BUFFER)
             .map { Success(it) as ResultState<PagedList<MovieEntity>> }
@@ -72,23 +70,13 @@ class MovieRepositoryImpl(
     }
 
     inner class BoundaryCallback(
-        refresh: Boolean,
+        private val refresh: Boolean,
         private val processor: PublishProcessor<ResultState<PagedList<MovieEntity>>>,
         private val disposables: CompositeDisposable
     ) : PagedList.BoundaryCallback<MovieEntity>() {
 
         private var page = 0
         private var endOfList = false
-
-        init {
-            if (refresh) {
-                Observable.fromCallable {
-                    movies.deleteAll()
-                }
-                    .subscribeOn(Schedulers.io())
-                    .subscribe()
-            }
-        }
 
         fun endOfList() = endOfList
 
@@ -115,6 +103,9 @@ class MovieRepositoryImpl(
                     if (it.totalPages <= page) {
                         endOfList = true
                     }
+                    if (refresh) {
+                        movies.deleteAll()
+                    }
                     movies.save(it)
                 }) {
                     processor.onNext(Loading(false))
@@ -135,11 +126,13 @@ class MovieRepositoryImpl(
     companion object {
         private val config by lazy {
             PagedList.Config.Builder()
-                .setPageSize(20)
-                .setInitialLoadSizeHint(20)
+                .setPageSize(PAGE_SIZE)
+                .setInitialLoadSizeHint(PAGE_SIZE)
                 .setPrefetchDistance(5)
                 .setEnablePlaceholders(false)
                 .build()
         }
+
+        const val PAGE_SIZE = 20
     }
 }

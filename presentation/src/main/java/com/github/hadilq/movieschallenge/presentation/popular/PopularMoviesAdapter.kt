@@ -33,12 +33,13 @@ class PopularMoviesAdapter @Inject constructor(
 
     var loading: Boolean = false
         set(value) {
-            val wasLoading = loading
+            val hadLoading = hasLoadingRow()
             field = value
-            if (!value && wasLoading) {
+            val hasLoading = hasLoadingRow()
+            if (hadLoading && !hasLoading) {
                 notifyItemRemoved(itemCount)
-            } else if (value && !wasLoading) {
-                notifyItemInserted(itemCount)
+            } else if (!hadLoading && hasLoading) {
+                notifyItemInserted(itemCount - 1)
             }
         }
     var listSize = 0
@@ -55,8 +56,7 @@ class PopularMoviesAdapter @Inject constructor(
     }
 
     override fun getItemCount(): Int {
-        val itemCount = super.getItemCount()
-        return itemCount + if (hasLoadingRow()) 1 else 0
+        return super.getItemCount() + if (hasLoadingRow()) 1 else 0
     }
 
     override fun getItem(position: Int): MovieEntity? {
