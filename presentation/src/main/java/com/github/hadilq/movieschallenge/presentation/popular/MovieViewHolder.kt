@@ -17,6 +17,7 @@
 package com.github.hadilq.movieschallenge.presentation.popular
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.github.hadilq.movieschallenge.domain.entity.MovieEntity
@@ -56,7 +57,8 @@ class MovieViewHolder(
             backdropPath?.apply {
                 itemView.imageView.loadFromUrl(picasso, this)
             } ?: also {
-                // It shouldn't happen, so log it to the crash service
+                itemView.imageView.setImageDrawable(null)
+                Log.d("MovieViewHolder", "It shouldn't happen, so log it to the crash service. ${item.name}")
             }
             itemView.titleView.text = name
             itemView.averageRatingView.text = " $voteAverage"
