@@ -48,9 +48,9 @@ class MovieDataSourceImplTest {
     fun save() {
         val movies = arrayOf(
             MovieTable(
-                0, "one", 43f, 3, null, " ", 9.0f
+                0, "one", 43f, 3, null, " ", 9.0f, 0
             ), MovieTable(
-                1, "one", 3f, 8, "", " ", 2f
+                1, "one", 3f, 8, "", " ", 2f, 1
             )
         )
 

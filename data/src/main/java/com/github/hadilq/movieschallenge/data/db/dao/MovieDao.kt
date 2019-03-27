@@ -26,7 +26,7 @@ import com.github.hadilq.movieschallenge.data.db.table.MovieTable
 @Dao
 interface MovieDao {
 
-    @Query("SELECT * FROM movie")
+    @Query("SELECT * FROM movie ORDER BY sorting")
     fun loadAll(): DataSource.Factory<Int, MovieTable>
 
     @Query("SELECT * FROM movie")
