@@ -19,6 +19,7 @@ package com.github.hadilq.movieschallenge.data.datasource.db.impl
 import androidx.room.Room
 import androidx.test.InstrumentationRegistry
 import androidx.test.runner.AndroidJUnit4
+import com.github.hadilq.movieschallenge.data.datasource.*
 import com.github.hadilq.movieschallenge.data.datasource.api.PopularMovieDataSource
 import com.github.hadilq.movieschallenge.data.db.AppDatabase
 import com.github.hadilq.movieschallenge.data.db.table.MovieTable
@@ -62,9 +63,9 @@ class MovieDataSourceImplTest {
     fun saveByDataSource() {
         val movies = arrayListOf(
             MovieEntity(
-                0, "one", 43f, 3, 9.0f, null, " "
+                0, "one", 43f, 3, 9.0f, null, "$IMAGE_PREFIX_ORIGIN/lsjfn"
             ), MovieEntity(
-                1, "one", 3f, 8, 4f, "", " "
+                1, "one", 3f, 8, 4f, "$IMAGE_PREFIX_W500/sfdv", "$IMAGE_PREFIX_ORIGIN/lsjfn"
             )
         )
 
@@ -73,5 +74,17 @@ class MovieDataSourceImplTest {
         dataSource.save(PopularMovieDataSource.MoviesList(1, 100, 200, movies))
 
         assertEquals(movies, dataSource.all())
+    }
+
+    @Test
+    fun mapToBackdropUrl() {
+        val s = "/sfvn"
+        assertEquals(s, s.mapToBackdropUrl().mapFromBackdropUrl())
+    }
+
+    @Test
+    fun mapToPosterUrl() {
+        val s = "/sfvn"
+        assertEquals(s, s.mapToPosterUrl().mapFromPosterUrl())
     }
 }

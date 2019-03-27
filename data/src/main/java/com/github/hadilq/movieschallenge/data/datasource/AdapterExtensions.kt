@@ -63,7 +63,10 @@ fun MovieEntity.map() = MovieTable(
     posterPath = posterPath.mapFromPosterUrl()
 )
 
-fun String.mapToBackdropUrl() = "https://image.tmdb.org/t/p/w500$this"
-fun String.mapToPosterUrl() = "https://image.tmdb.org/t/p/original$this"
-fun String.mapFromBackdropUrl() = removePrefix("https://image.tmdb.org/t/p/w500")
-fun String.mapFromPosterUrl() = removePrefix("https://image.tmdb.org/t/p/original")
+const val IMAGE_PREFIX_W500 = "https://image.tmdb.org/t/p/w500"
+const val IMAGE_PREFIX_ORIGIN = "https://image.tmdb.org/t/p/original"
+
+fun String.mapToBackdropUrl() = "$IMAGE_PREFIX_W500$this"
+fun String.mapToPosterUrl() = "$IMAGE_PREFIX_ORIGIN$this"
+fun String.mapFromBackdropUrl() = removePrefix(IMAGE_PREFIX_W500)
+fun String.mapFromPosterUrl() = removePrefix(IMAGE_PREFIX_ORIGIN)

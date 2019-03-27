@@ -42,12 +42,11 @@ class PopularMovieDataSourceImplTest {
 
     @Test
     fun call() {
-        val apiKey = "apiKey"
         val json = readString("popular-movies.json")
         val dto = gson.fromJson(json, PopularDto::class.java)
-        `when`(api.getPopular(apiKey, 1)).doReturn(Single.just(dto))
+        `when`(api.getPopular(1)).doReturn(Single.just(dto))
 
-        val test = api.getPopular(apiKey, 1).test()
+        val test = api.getPopular(1).test()
 
         test.assertComplete()
         test.assertNoErrors()
@@ -61,8 +60,7 @@ class PopularMovieDataSourceImplTest {
 
     @Test
     fun callFromDataSource() {
-        val apiKey = "apiKey"
-        `when`(api.getPopular(apiKey, 1)).doReturn(
+        `when`(api.getPopular(1)).doReturn(
             Single.just(
                 gson.fromJson(
                     readString("popular-movies.json"),
@@ -72,7 +70,7 @@ class PopularMovieDataSourceImplTest {
         )
         val dataSource = PopularMovieDataSourceImpl(api)
 
-        val test = dataSource.call(apiKey, 1).test()
+        val test = dataSource.call(1).test()
 
         test.assertComplete()
         test.assertNoErrors()

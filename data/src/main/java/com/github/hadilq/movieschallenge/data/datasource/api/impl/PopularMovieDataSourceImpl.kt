@@ -17,6 +17,7 @@
 package com.github.hadilq.movieschallenge.data.datasource.api.impl
 
 import com.github.hadilq.movieschallenge.data.api.Api
+import com.github.hadilq.movieschallenge.data.api.dto.PopularDto
 import com.github.hadilq.movieschallenge.data.datasource.api.PopularMovieDataSource
 import com.github.hadilq.movieschallenge.data.datasource.map
 import io.reactivex.Single
@@ -25,6 +26,6 @@ class PopularMovieDataSourceImpl(
     private val api: Api
 ) : PopularMovieDataSource {
 
-    override fun call(apiKey: String, page: Int): Single<PopularMovieDataSource.MoviesList> =
-        api.getPopular(apiKey = apiKey, page = page).map { it.map() }
+    override fun call(page: Int): Single<PopularMovieDataSource.MoviesList> =
+        api.getPopular(page = page).map(PopularDto::map)
 }
