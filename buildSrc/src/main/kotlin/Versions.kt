@@ -15,6 +15,7 @@ object Versions {
     const val constraintLayout = "1.1.3"
     const val retrofit = "2.5.0"
     const val picasso = "2.5.2"
+    const val picassoDownloader = "1.1.0"
     const val okhttpLoggingInterceptor = "3.11.0"
     const val dagger = "2.21"
     const val room = "2.0.0-rc01"

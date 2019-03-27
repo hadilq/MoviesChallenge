@@ -9,6 +9,7 @@ object Depends {
     const val lifecycleCompiler = "androidx.lifecycle:lifecycle-compiler:${Versions.androidXLifecycleLib}"
     const val design = "com.google.android.material:material:${Versions.androidXMaterialLib}"
     const val picasso = "com.squareup.picasso:picasso:${Versions.picasso}"
+    const val picassoDownloader = "com.jakewharton.picasso:picasso2-okhttp3-downloader:${Versions.picassoDownloader}"
     const val constraintLayout = "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
     const val kotlin = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}"
     const val rxJava = "io.reactivex.rxjava2:rxjava:2.2.7"
