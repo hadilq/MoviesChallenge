@@ -23,11 +23,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.github.hadilq.movieschallenge.domain.entity.MovieEntity
 import com.github.hadilq.movieschallenge.presentation.R
 import com.squareup.picasso.Picasso
-import gone
 import inflate
 import kotlinx.android.synthetic.main.movie.view.*
 import loadFromUrl
-import visible
 import javax.inject.Inject
 
 class MovieViewHolder(
@@ -52,8 +50,6 @@ class MovieViewHolder(
     fun onBind(item: MovieEntity?) {
         this.item = item
         item?.apply {
-            itemView.progressView.gone()
-
             backdropPath?.apply {
                 itemView.imageView.loadFromUrl(picasso, this)
             } ?: also {
@@ -62,11 +58,8 @@ class MovieViewHolder(
             }
             itemView.titleView.text = name
             itemView.averageRatingView.text = " $voteAverage"
-        } ?: run {
-            itemView.progressView.visible()
-            itemView.titleView.gone()
-            itemView.averageRatingView.gone()
-            itemView.imageView.gone()
+        }?:let {
+            throw IllegalStateException("Item cannot be null")
         }
     }
 }

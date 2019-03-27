@@ -11,20 +11,11 @@
         >
 
     <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/movieLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin"
             >
-
-        <ProgressBar
-                android:id="@+id/progressView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                />
 
         <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imageView"
@@ -63,6 +54,7 @@
                 android:layout_marginRight="@dimen/margin"
                 android:drawableLeft="@drawable/ic_smile"
                 android:text="  5.6"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                 tools:ignore="HardcodedText,RtlHardcoded"
                 />
 

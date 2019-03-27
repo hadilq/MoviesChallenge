@@ -68,7 +68,6 @@ class PopularMoviesActivity : DaggerAppCompatActivity() {
     }
 
     private fun success(list: PagedList<MovieEntity>) {
-        adapter.listSize = list.size
         adapter.submitList(list)
     }
 
