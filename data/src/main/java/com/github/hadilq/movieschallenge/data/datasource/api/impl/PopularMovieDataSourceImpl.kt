@@ -26,5 +26,5 @@ class PopularMovieDataSourceImpl(
 ) : PopularMovieDataSource {
 
     override fun call(apiKey: String, page: Int): Single<PopularMovieDataSource.MoviesList> =
-        api.getPolular(apiKey = apiKey, page = page).map { it.map() }
+        api.getPopular(apiKey = apiKey, page = page).map { it.map() }
 }
