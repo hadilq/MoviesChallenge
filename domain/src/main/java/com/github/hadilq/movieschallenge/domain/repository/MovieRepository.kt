@@ -24,7 +24,12 @@ import io.reactivex.Flowable
 interface MovieRepository {
 
     /**
-     * Returns a stream of ResultStates to load movies by the given [apiKey].
+     * Returns a stream of ResultStates to load movies. To delete the database, just set the [refresh] to true.
      */
-    fun loadMovies(apiKey: String): Flowable<ResultState<PagedList<MovieEntity>>>
+    fun loadMovies(refresh: Boolean): Flowable<ResultState<PagedList<MovieEntity>>>
+
+    /**
+     * Retries the last failed request to server.
+     */
+    fun retry()
 }

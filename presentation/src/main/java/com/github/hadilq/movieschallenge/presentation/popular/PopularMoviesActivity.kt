@@ -63,30 +63,30 @@ class PopularMoviesActivity : DaggerAppCompatActivity() {
             // item clicked
         }
         swipeView.setOnRefreshListener {
-            viewModel.retry()
+            viewModel.refresh()
         }
     }
 
     private fun success(list: PagedList<MovieEntity>) {
+        adapter.listSize = list.size
         adapter.submitList(list)
-        swipeView.isRefreshing = false
-        if (list.isEmpty()) {
-            progressView.visible()
-        } else {
-            progressView.gone()
-        }
     }
 
     private fun error(throwable: Throwable) {
         if (BuildConfig.DEBUG) {
             Log.e("PopularMoviesActivity", "An error happened!", throwable)
         }
-        progressView.gone()
         showFailure(R.string.errorMessage) { viewModel.retry() }
     }
 
     private fun loading(loading: Boolean) {
-        adapter.endOfList = !loading
+        adapter.loading = loading
+        swipeView.isRefreshing = false
+        if (loading && adapter.listSize == 0) {
+            progressView.visible()
+        } else {
+            progressView.gone()
+        }
     }
 
     private fun showFailure(errorMessage: Int, retry: (View) -> Unit) {

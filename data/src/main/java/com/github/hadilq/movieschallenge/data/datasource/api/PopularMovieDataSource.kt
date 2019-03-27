@@ -24,7 +24,7 @@ interface PopularMovieDataSource {
     /**
      * Calls the API for popular movies.
      */
-    fun call(apiKey: String, page: Int): Single<MoviesList>
+    fun call(page: Int): Single<MoviesList>
 
     data class MoviesList(
         val page: Int,

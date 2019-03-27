@@ -23,7 +23,6 @@ import com.github.hadilq.movieschallenge.data.datasource.db.MovieDataSource
 import com.github.hadilq.movieschallenge.data.datasource.db.impl.MovieDataSourceImpl
 import com.github.hadilq.movieschallenge.data.db.dao.MovieDao
 import com.github.hadilq.movieschallenge.data.repository.MovieRepositoryImpl
-import com.github.hadilq.movieschallenge.domain.repository.ApiKeyRepository
 import com.github.hadilq.movieschallenge.domain.repository.MovieRepository
 import com.github.hadilq.movieschallenge.domain.usecase.GetMovies
 import com.github.hadilq.movieschallenge.domain.usecase.impl.GetMoviesImpl
@@ -47,7 +46,6 @@ class PopularMoviesModule {
 
     @Provides
     fun provideUseCase(
-        repository: MovieRepository,
-        apiKeyRepository: ApiKeyRepository
-    ): GetMovies = GetMoviesImpl(repository, apiKeyRepository)
+        repository: MovieRepository
+    ): GetMovies = GetMoviesImpl(repository)
 }

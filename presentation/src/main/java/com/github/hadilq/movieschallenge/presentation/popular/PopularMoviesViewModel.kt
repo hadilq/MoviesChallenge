@@ -49,18 +49,22 @@ class PopularMoviesViewModel @Inject constructor(
     val errorLiveData: LiveData<Throwable> = _errorLiveData
     val loadingLiveData: LiveData<Boolean> = _loadingLiveData
 
-    fun retry() {
+    fun startLoading() = startLoading(false)
+
+    fun refresh() {
         started = false
-        startLoading()
+        startLoading(true)
     }
 
-    fun startLoading() {
+    fun retry() = getMovies.retry()
+
+    private fun startLoading(refresh: Boolean) {
         if (started) {
             return
         }
         started = true
         disposables.clear()
-        getMovies.loadMovies().subscribe { result ->
+        getMovies.loadMovies(refresh).subscribe { result ->
             when (result) {
                 is Success -> _successLiveData.postValue(result.data)
                 is Error -> _errorLiveData.postValue(result.throwable)
@@ -69,9 +73,7 @@ class PopularMoviesViewModel @Inject constructor(
         }.track()
     }
 
-    private fun Disposable.track() {
-        disposables.add(this)
-    }
+    private fun Disposable.track() = disposables.add(this)
 
     override fun onCleared() {
         super.onCleared()

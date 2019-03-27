@@ -28,7 +28,6 @@ interface Api {
      */
     @GET("tv/popular")
     fun getPopular(
-        @Query("api_key") apiKey: String,
         @Query("page") page: Int,
         @Query("language") language: String = "en-US"
     ): Single<PopularDto>

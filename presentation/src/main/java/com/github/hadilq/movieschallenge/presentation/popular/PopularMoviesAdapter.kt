@@ -31,14 +31,17 @@ class PopularMoviesAdapter @Inject constructor(
 
     lateinit var listener: (MovieEntity) -> Unit
 
-    var endOfList: Boolean = false
+    var loading: Boolean = false
         set(value) {
-            val wasEndOfList = endOfList
+            val wasLoading = loading
             field = value
-            if (value && !wasEndOfList) {
+            if (!value && wasLoading) {
                 notifyItemRemoved(itemCount)
+            } else if (value && !wasLoading) {
+                notifyItemInserted(itemCount)
             }
         }
+    var listSize = 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
         bridge.parent = parent
@@ -53,16 +56,18 @@ class PopularMoviesAdapter @Inject constructor(
 
     override fun getItemCount(): Int {
         val itemCount = super.getItemCount()
-        return if (itemCount == 0) 0 else itemCount + if (endOfList) 0 else 1
+        return itemCount + if (hasLoadingRow()) 1 else 0
     }
 
     override fun getItem(position: Int): MovieEntity? {
         val itemCount = itemCount
-        if (itemCount != 0 && position == itemCount - 1 && !endOfList) {
+        if (position == itemCount - 1 && hasLoadingRow()) {
             return null
         }
         return super.getItem(position)
     }
+
+    private fun hasLoadingRow() = if (listSize == 0) false else loading
 
     companion object {
         val MOVIES_DIFF = object : DiffUtil.ItemCallback<MovieEntity>() {

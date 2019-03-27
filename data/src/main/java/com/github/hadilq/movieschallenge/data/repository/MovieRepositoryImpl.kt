@@ -24,42 +24,78 @@ import com.github.hadilq.movieschallenge.domain.entity.*
 import com.github.hadilq.movieschallenge.domain.repository.MovieRepository
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
+import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.processors.PublishProcessor
+import io.reactivex.schedulers.Schedulers
 
 class MovieRepositoryImpl(
     private val popularMovies: PopularMovieDataSource,
     private val movies: MovieDataSource
 ) : MovieRepository {
 
-    override fun loadMovies(apiKey: String): Flowable<ResultState<PagedList<MovieEntity>>> {
+    private lateinit var boundaryCallback: BoundaryCallback
+
+    override fun loadMovies(refresh: Boolean): Flowable<ResultState<PagedList<MovieEntity>>> {
         val processor = PublishProcessor.create<ResultState<PagedList<MovieEntity>>>()
         val disposables = CompositeDisposable()
 
-        processor.onNext(Loading(true))
+        return Flowable.merge(
+            databaseFlowable(refresh, processor, disposables),
+            processor.hide().doOnCancel {
+                disposables.clear()
+            }
+        )
+    }
 
-        return processor.flatMap {
-            RxPagedListBuilder(
-                movies.popular(),
-                config
-            )
-                .setBoundaryCallback(BoundaryCallback(apiKey, processor, disposables))
-                .buildFlowable(BackpressureStrategy.BUFFER)
-                .map { Success(it) as ResultState<PagedList<MovieEntity>> }
-        }.hide().doOnCancel { disposables.clear() }
+    override fun retry() {
+        boundaryCallback.retry()
+    }
+
+    private fun databaseFlowable(
+        refresh: Boolean,
+        processor: PublishProcessor<ResultState<PagedList<MovieEntity>>>,
+        disposables: CompositeDisposable
+    ): Flowable<ResultState<PagedList<MovieEntity>>> {
+        val factory = movies.popular()
+
+        boundaryCallback = BoundaryCallback(refresh, processor, disposables)
+        return RxPagedListBuilder(factory, config)
+            .setFetchScheduler(Schedulers.computation())
+            .setBoundaryCallback(boundaryCallback)
+            .buildFlowable(BackpressureStrategy.BUFFER)
+            .map { Success(it) as ResultState<PagedList<MovieEntity>> }
+            .flatMap {
+                Flowable.concat(Flowable.just(it, Loading(!boundaryCallback.endOfList())), processor)
+            }
     }
 
     inner class BoundaryCallback(
-        private val apiKey: String,
+        refresh: Boolean,
         private val processor: PublishProcessor<ResultState<PagedList<MovieEntity>>>,
         private val disposables: CompositeDisposable
     ) : PagedList.BoundaryCallback<MovieEntity>() {
 
-        private var page = 1
+        private var page = 0
         private var endOfList = false
 
+        init {
+            if (refresh) {
+                Observable.fromCallable {
+                    movies.deleteAll()
+                }
+                    .subscribeOn(Schedulers.io())
+                    .subscribe()
+            }
+        }
+
+        fun endOfList() = endOfList
+
         override fun onZeroItemsLoaded() {
+            if (page == 1) {
+                return
+            }
             page = 1
             request(page)
         }
@@ -72,14 +108,16 @@ class MovieRepositoryImpl(
             if (endOfList) {
                 return
             }
-            popularMovies.call(apiKey, page)
+            processor.onNext(Loading(true))
+            popularMovies.call(page)
+                .subscribeOn(Schedulers.io())
                 .subscribe({
                     if (it.totalPages <= page) {
                         endOfList = true
-                        processor.onNext(Loading(false))
                     }
                     movies.save(it)
                 }) {
+                    processor.onNext(Loading(false))
                     processor.onNext(Error(it))
                 }
                 .track()
@@ -87,6 +125,10 @@ class MovieRepositoryImpl(
 
         private fun Disposable.track() {
             disposables.add(this)
+        }
+
+        fun retry() {
+            request(page)
         }
     }
 
