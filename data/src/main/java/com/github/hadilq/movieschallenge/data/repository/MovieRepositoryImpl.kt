@@ -78,18 +78,28 @@ class MovieRepositoryImpl(
         private var page = 0
         private var endOfList = false
 
+        init {
+            if (refresh) {
+                initialRequest()
+            }
+        }
+
         fun endOfList() = endOfList
 
         override fun onZeroItemsLoaded() {
             if (page == 1) {
                 return
             }
-            page = 1
-            request(page)
+            initialRequest()
         }
 
         override fun onItemAtEndLoaded(itemAtEnd: MovieEntity) {
             request(++page)
+        }
+
+        private fun initialRequest() {
+            page = 1
+            request(page)
         }
 
         private fun request(page: Int) {
@@ -102,9 +112,6 @@ class MovieRepositoryImpl(
                 .subscribe({
                     if (it.totalPages <= page) {
                         endOfList = true
-                    }
-                    if (refresh) {
-                        movies.deleteAll()
                     }
                     movies.save(it)
                 }) {
@@ -133,6 +140,6 @@ class MovieRepositoryImpl(
                 .build()
         }
 
-        const val PAGE_SIZE = 20
+        private const val PAGE_SIZE = 20
     }
 }
