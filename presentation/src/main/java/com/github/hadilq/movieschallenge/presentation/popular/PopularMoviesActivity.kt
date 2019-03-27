@@ -17,11 +17,13 @@
 package com.github.hadilq.movieschallenge.presentation.popular
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.*
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.hadilq.movieschallenge.domain.entity.MovieEntity
+import com.github.hadilq.movieschallenge.presentation.BuildConfig
 import com.github.hadilq.movieschallenge.presentation.R
 import com.google.android.material.snackbar.Snackbar
 import dagger.android.support.DaggerAppCompatActivity
@@ -61,9 +63,7 @@ class PopularMoviesActivity : DaggerAppCompatActivity() {
             // item clicked
         }
         swipeView.setOnRefreshListener {
-            if (!swipeView.isRefreshing) {
-                viewModel.retry()
-            }
+            viewModel.retry()
         }
     }
 
@@ -77,14 +77,17 @@ class PopularMoviesActivity : DaggerAppCompatActivity() {
         }
     }
 
-    private fun error(@Suppress("UNUSED_PARAMETER") throwable: Throwable) {
+    private fun error(throwable: Throwable) {
+        if (BuildConfig.DEBUG) {
+            Log.e("PopularMoviesActivity", "An error happened!", throwable)
+        }
+        progressView.gone()
         showFailure(R.string.errorMessage) { viewModel.retry() }
     }
 
     private fun loading(loading: Boolean) {
         adapter.endOfList = !loading
     }
-
 
     private fun showFailure(errorMessage: Int, retry: (View) -> Unit) {
         if (snackbar?.isShown == true) {
