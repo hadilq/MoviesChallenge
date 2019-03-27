@@ -82,7 +82,7 @@ interface PopularMovieDataSource {
     )
 }
 ``` 
-and `` is
+and `MovieDataSource` is
 ```kotlin
 interface MovieDataSource {
 
@@ -114,3 +114,41 @@ The main classes of this module are [PopularMoviesViewModel](https://github.com/
 and [PopularMoviesActivity](https://github.com/hadilq/MoviesChallenge/blob/master/presentation/src/main/java/com/github/hadilq/movieschallenge/presentation/popular/PopularMoviesActivity.kt).
 `PopularMoviesViewModel` is the view model of `MVVM` architectural pattern and `PopularMoviesActivity` is responsible for 
 the view in this pattern.
+
+App Module
+---
+The dagger modules are all here. The [AppComponent](https://github.com/hadilq/MoviesChallenge/blob/master/app/src/main/java/com/github/hadilq/movieschallenge/di/app/AppComponent.kt) is like this
+```kotlin
+@Singleton
+@Component(
+    modules = [
+        AndroidSupportInjectionModule::class,
+        AppModule::class,
+        NetworkModule::class,
+        DatabaseModule::class,
+        ViewModelModule::class,
+        PopularMoviesActivityModule::class,
+        PopularMoviesModule::class
+    ]
+)
+interface AppComponent : AndroidInjector<App> {
+    @Component.Builder
+    abstract class Builder : AndroidInjector.Builder<App>()
+}
+```
+Also you can find the [App](https://github.com/hadilq/MoviesChallenge/blob/master/app/src/main/java/com/github/hadilq/movieschallenge/App.kt)
+in this module.
+```kotlin
+class App : DaggerApplication() {
+
+    @Inject
+    lateinit var applicationInjector: DispatchingAndroidInjector<App>
+
+    override fun applicationInjector(): AndroidInjector<out DaggerApplication> = applicationInjector
+
+    override fun onCreate() {
+        DaggerAppComponent.builder().create(this).inject(this)
+        super.onCreate()
+    }
+}
+```
