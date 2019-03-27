@@ -35,15 +35,24 @@ class PopularMoviesAdapter @Inject constructor(
 
     lateinit var listener: (MovieEntity) -> Unit
 
+    private var listSize = 0
     var loading: Boolean = false
         set(value) {
+            val previousState = loading
+            val hadLoadingRow = hasLoadingRow()
             field = value
-            if (lastLoadingPosition > 0) {
-                notifyItemChanged(lastLoadingPosition)
+            val hasLoadingRow = hasLoadingRow()
+            if (hadLoadingRow != hasLoadingRow) {
+                if (hadLoadingRow) {
+//                    notifyItemRemoved(super.getItemCount())
+                    notifyDataSetChanged()
+                } else {
+                    notifyItemInserted(super.getItemCount())
+                }
+            } else if (hasLoadingRow && previousState != value) {
+                notifyItemChanged(itemCount - 1)
             }
         }
-    var listSize = 0
-    private var lastLoadingPosition = -1
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         bridge.parent = parent
@@ -61,9 +70,6 @@ class PopularMoviesAdapter @Inject constructor(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (getItemViewType(position)) {
             R.layout.movie -> (holder as MovieViewHolder).onBind(getItem(position))
-            R.layout.loading -> {
-                lastLoadingPosition = position
-            }
         }
     }
 
@@ -77,7 +83,9 @@ class PopularMoviesAdapter @Inject constructor(
         super.submitList(pagedList)
     }
 
-    private fun hasLoadingRow() = if (listSize == 0) false else loading
+    fun listSize() = listSize
+
+    private fun hasLoadingRow() = if (super.getItemCount() == 0) false else loading
 
     companion object {
         val MOVIES_DIFF = object : DiffUtil.ItemCallback<MovieEntity>() {

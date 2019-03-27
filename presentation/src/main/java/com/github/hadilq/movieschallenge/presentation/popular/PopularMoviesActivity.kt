@@ -69,6 +69,9 @@ class PopularMoviesActivity : DaggerAppCompatActivity() {
 
     private fun success(list: PagedList<MovieEntity>) {
         adapter.submitList(list)
+        if (adapter.listSize() != 0) {
+            progressView.gone()
+        }
     }
 
     private fun error(throwable: Throwable) {
@@ -81,7 +84,7 @@ class PopularMoviesActivity : DaggerAppCompatActivity() {
     private fun loading(loading: Boolean) {
         adapter.loading = loading
         swipeView.isRefreshing = false
-        if (loading && adapter.listSize == 0) {
+        if (loading && adapter.listSize() == 0) {
             progressView.visible()
         } else {
             progressView.gone()

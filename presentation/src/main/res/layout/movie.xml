@@ -8,6 +8,7 @@
         android:layout_marginLeft="@dimen/marginHalf"
         android:layout_marginRight="@dimen/marginHalf"
         android:layout_marginTop="@dimen/marginHalf"
+        android:layout_marginBottom="@dimen/marginQuarter"
         >
 
     <androidx.constraintlayout.widget.ConstraintLayout

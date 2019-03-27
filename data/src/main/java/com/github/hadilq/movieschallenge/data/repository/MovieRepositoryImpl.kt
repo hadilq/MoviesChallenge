@@ -64,9 +64,6 @@ class MovieRepositoryImpl(
             .setBoundaryCallback(boundaryCallback)
             .buildFlowable(BackpressureStrategy.BUFFER)
             .map { Success(it) as ResultState<PagedList<MovieEntity>> }
-            .flatMap {
-                Flowable.concat(Flowable.just(it, Loading(!boundaryCallback.endOfList())), processor)
-            }
     }
 
     inner class BoundaryCallback(
@@ -83,8 +80,6 @@ class MovieRepositoryImpl(
                 initialRequest()
             }
         }
-
-        fun endOfList() = endOfList
 
         override fun onZeroItemsLoaded() {
             if (page == 1) {
@@ -113,6 +108,7 @@ class MovieRepositoryImpl(
                     if (it.totalPages <= page) {
                         endOfList = true
                     }
+                    processor.onNext(Loading(false))
                     movies.save(it)
                 }) {
                     processor.onNext(Loading(false))
