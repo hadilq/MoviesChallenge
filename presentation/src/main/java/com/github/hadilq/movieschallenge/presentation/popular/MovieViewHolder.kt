@@ -62,6 +62,9 @@ class MovieViewHolder(
             itemView.averageRatingView.text = " $voteAverage"
         } ?: run {
             itemView.progressView.visible()
+            itemView.titleView.gone()
+            itemView.averageRatingView.gone()
+            itemView.imageView.gone()
         }
     }
 }
