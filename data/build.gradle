@@ -8,7 +8,9 @@ android {
     defaultConfig {
         minSdkVersion Versions.minSdk
         targetSdkVersion Versions.targetSdk
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.github.hadilq.movieschallenge.data.MultiDexJunitRunner"
+
+        multiDexEnabled true
     }
 
     buildTypes {
@@ -42,6 +44,12 @@ dependencies {
         exclude group: 'androidx.annotation', module: 'annotation'
     })
     androidTestImplementation Depends.annotations
+    androidTestImplementation Depends.junit
+    androidTestImplementation Depends.mockito
+    androidTestImplementation Depends.roomTesting
+    androidTestImplementation Depends.multidexInstrumentation
+    androidTestImplementation Depends.dexmaker
+    androidTestImplementation Depends.coreTesting
 
     testImplementation Depends.junit
     testImplementation Depends.roomTesting

@@ -48,26 +48,23 @@ class MovieRepositoryImpl(
         )
     }
 
-    override fun retry() {
-        boundaryCallback.retry()
-    }
+    override fun retry() = boundaryCallback.retry()
 
     private fun databaseFlowable(
         refresh: Boolean,
         processor: PublishProcessor<ResultState<PagedList<MovieEntity>>>,
         disposables: CompositeDisposable
     ): Flowable<ResultState<PagedList<MovieEntity>>> {
-        val factory = movies.popular()
 
         boundaryCallback = BoundaryCallback(refresh, processor, disposables)
-        return RxPagedListBuilder(factory, config)
+        return RxPagedListBuilder(movies.popular(), config)
             .setBoundaryCallback(boundaryCallback)
             .buildFlowable(BackpressureStrategy.BUFFER)
             .map { Success(it) as ResultState<PagedList<MovieEntity>> }
     }
 
     inner class BoundaryCallback(
-        private val refresh: Boolean,
+        refresh: Boolean,
         private val processor: PublishProcessor<ResultState<PagedList<MovieEntity>>>,
         private val disposables: CompositeDisposable
     ) : PagedList.BoundaryCallback<MovieEntity>() {
