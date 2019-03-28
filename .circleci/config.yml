@@ -1,11 +1,12 @@
 version: 2
 jobs:
   build:
+    resource_class: medium+
     working_directory: ~/code
     docker:
     - image: circleci/android:api-28-alpha
     environment:
-      _JAVA_OPTIONS: "-XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -Xms1024m -Xmx3072m -XX:MaxMetaspaceSize=1536m"
+      _JAVA_OPTIONS: "-XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -Xms1024m -Xmx4096m -XX:MaxMetaspaceSize=1536m"
       GRADLE_OPTS: '-Dorg.gradle.daemon=false -Dorg.gradle.parallel=false -Dkotlin.incremental=false -DdisablePreDex'
     steps:
     - checkout
