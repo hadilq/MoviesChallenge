@@ -9,17 +9,17 @@ jobs:
       GRADLE_OPTS: '-Dorg.gradle.daemon=false -Dorg.gradle.parallel=false -Dkotlin.incremental=false -DdisablePreDex'
     steps:
     - checkout
-#    - restore_cache:
-#        key: jars-{{ checksum "build.gradle" }}-{{ checksum  "library/build.gradle" }}
+    #    - restore_cache:
+    #        key: jars-{{ checksum "build.gradle" }}-{{ checksum  "library/build.gradle" }}
     - run:
         name: Setup emulator
-        command: >
-          sdkmanager "system-images;android-22;default;armeabi-v7a"
+        command: sdkmanager "system-images;android-22;default;armeabi-v7a"
     - run:
         name: Accept licenses
-        command: >
-          sdkmanager --licenses &&
-          echo "no" | avdmanager create avd -n test -k "system-images;android-22;default;armeabi-v7a"
+        command: sdkmanager --licenses &&
+    - run:
+        name: Create emulator
+        command: echo "no" | avdmanager create avd -n test -k "system-images;android-22;default;armeabi-v7a"
     - run:
         name: Launch emulator
         command: export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator/lib64:${ANDROID_HOME}/emulator/lib64/qt/lib && emulator64-arm -avd test -noaudio -no-boot-anim -no-window -accel on
