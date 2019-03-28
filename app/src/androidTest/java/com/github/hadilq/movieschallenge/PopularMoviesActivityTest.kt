@@ -8,6 +8,7 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.rule.ActivityTestRule
 import androidx.test.runner.AndroidJUnit4
+import com.github.hadilq.movieschallenge.WaitViewAction.waitId
 import com.github.hadilq.movieschallenge.data.api.Api
 import com.github.hadilq.movieschallenge.data.api.dto.MovieDto
 import com.github.hadilq.movieschallenge.data.api.dto.PopularDto
@@ -38,6 +39,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito.`when`
 import java.io.IOException
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -81,6 +83,7 @@ class PopularMoviesActivityTest {
 
         activityRule.launchActivity(Intent())
 
+        onView(isRoot()).perform(waitId(R.id.titleView, TimeUnit.SECONDS.toMillis(15)))
         onView(withId(R.id.titleView)).check(matches(withText("one")))
     }
 
