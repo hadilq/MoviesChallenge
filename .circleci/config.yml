@@ -1,15 +1,11 @@
 version: 2
 jobs:
   build:
-    machine:
-      post:
-    - FILE=$CIRCLE_ARTIFACTS/memory-usage-actual.txt; while true; do ps -u ubuntu eo pid,%cpu,%mem,args,uname --sort=-%mem >> $FILE; echo "----------" >> $FILE; sleep 1; done:
-          background: true
     working_directory: ~/code
     docker:
     - image: circleci/android:api-28-alpha
     environment:
-      _JAVA_OPTIONS: "-Xms512m -Xmx2048m"
+      _JAVA_OPTIONS: "-Xms512m -Xmx1024m"
       GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.parallel=false"
     steps:
     - checkout
