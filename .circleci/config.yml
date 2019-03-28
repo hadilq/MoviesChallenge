@@ -10,8 +10,6 @@ jobs:
       GRADLE_OPTS: '-Dorg.gradle.daemon=false -Dorg.gradle.parallel=false -Dkotlin.incremental=false -DdisablePreDex'
     steps:
     - checkout
-#    - restore_cache:
-#       key: jars-{{ checksum "build.gradle" }}-{{ checksum  "library/build.gradle" }}
     - run:
         name: Accept licenses
         command: >
@@ -42,14 +40,10 @@ jobs:
         parallel: true
     - run:
         name: Download Dependencies
-        command: ./gradlew androidDependencies
+        command: ./gradlew --stop && ./gradlew androidDependencies
     - run:
         name: Run all checks
         command: ./gradlew check
-    - save_cache:
-        paths:
-        - ~/.gradle
-        key: jars-{{ checksum "build.gradle" }}-{{ checksum  "library/build.gradle" }}
     - run:
         name: Run UI Tests
         command: ./gradlew connectedCheck
