@@ -14,21 +14,12 @@
  * limitations under the License.
  *
  * */
-package com.github.hadilq.movieschallenge.data.api
+package com.github.hadilq.movieschallenge.di.viewmodel
 
-import com.github.hadilq.movieschallenge.data.api.dto.PopularDto
-import io.reactivex.Single
-import retrofit2.http.GET
-import retrofit2.http.Query
+import androidx.lifecycle.ViewModel
+import dagger.MapKey
+import kotlin.reflect.KClass
 
-interface Api {
-
-    /**
-     * Gets popular movies of the specific [page].
-     */
-    @GET("tv/popular")
-    fun getPopular(
-        @Query("page") page: Int,
-        @Query("language") language: String = "en-US"
-    ): Single<PopularDto>
-}
+@MapKey
+@Target(AnnotationTarget.FUNCTION, AnnotationTarget.PROPERTY_GETTER, AnnotationTarget.PROPERTY_SETTER)
+annotation class ViewModelKey(val value: KClass<out ViewModel>)

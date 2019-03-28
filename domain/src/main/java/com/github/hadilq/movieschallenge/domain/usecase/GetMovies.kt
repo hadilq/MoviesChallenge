@@ -26,5 +26,10 @@ interface GetMovies {
     /**
      * Returns a stream of ResultStates to load movies.
      */
-    fun loadMovies(): Flowable<ResultState<PagedList<MovieEntity>>>
+    fun loadMovies(refresh: Boolean): Flowable<ResultState<PagedList<MovieEntity>>>
+
+    /**
+     * Retries the last failed request to server.
+     */
+    fun retry()
 }

@@ -36,4 +36,9 @@ interface MovieDataSource {
      * Saves the list of popular movies.
      */
     fun save(list: PopularMovieDataSource.MoviesList)
+
+    /**
+     * Deletes all the movies in the table.
+     */
+    fun deleteAll()
 }

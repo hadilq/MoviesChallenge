@@ -19,18 +19,22 @@ package com.github.hadilq.movieschallenge.data.db.dao
 import androidx.paging.DataSource
 import androidx.room.Dao
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.github.hadilq.movieschallenge.data.db.table.MovieTable
 
 @Dao
 interface MovieDao {
 
-    @Query("SELECT * FROM movie")
+    @Query("SELECT * FROM movie ORDER BY sorting")
     fun loadAll(): DataSource.Factory<Int, MovieTable>
 
     @Query("SELECT * FROM movie")
     fun all(): List<MovieTable>
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun save(vararg movie: MovieTable)
+
+    @Query("DELETE FROM movie")
+    fun deleteAll()
 }

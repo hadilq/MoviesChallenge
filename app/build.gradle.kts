@@ -33,6 +33,10 @@ dependencies {
     kapt(Depends.daggerCompiler)
     kapt(Depends.daggerProcessor)
     kapt(Depends.lifecycleCompiler)
+    kapt(Depends.roomCompiler)
+
+    kaptAndroidTest(Depends.daggerCompiler)
+    kaptAndroidTest(Depends.daggerProcessor)
 
     implementation(project(":presentation"))
     implementation(project(":data"))
@@ -41,12 +45,26 @@ dependencies {
     implementation(Depends.kotlin)
     implementation(Depends.appcompat)
     implementation(Depends.lifecycle)
-    implementation(Depends.coreKtx)
     implementation(Depends.constraintLayout)
+    implementation(Depends.dagger)
+    implementation(Depends.daggerAndroid)
+    implementation(Depends.rxJava)
+    implementation(Depends.room)
+    implementation(Depends.roomRuntime)
+    implementation(Depends.retrofit)
+    implementation(Depends.retrofitRxJava2Adapter)
+    implementation(Depends.retrofitGsonConverter)
+    implementation(Depends.okhttpLoggingInterceptor)
+    implementation(Depends.picasso)
+    implementation(Depends.picassoDownloader)
+    implementation(Depends.paging)
+    implementation(Depends.pagingRx)
 
     testImplementation(Depends.junit)
 
     androidTestImplementation(Depends.testRunner)
     androidTestImplementation(Depends.testRules)
     androidTestImplementation(Depends.espressoCore)
+    androidTestImplementation(Depends.mockito)
+    androidTestImplementation(Depends.dexmaker)
 }

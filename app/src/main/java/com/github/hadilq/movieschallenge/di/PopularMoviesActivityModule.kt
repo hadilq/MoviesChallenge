@@ -14,21 +14,17 @@
  * limitations under the License.
  *
  * */
-package com.github.hadilq.movieschallenge.data.api
+package com.github.hadilq.movieschallenge.di
 
-import com.github.hadilq.movieschallenge.data.api.dto.PopularDto
-import io.reactivex.Single
-import retrofit2.http.GET
-import retrofit2.http.Query
+import com.github.hadilq.movieschallenge.presentation.popular.MoviesScope
+import com.github.hadilq.movieschallenge.presentation.popular.PopularMoviesActivity
+import dagger.Module
+import dagger.android.ContributesAndroidInjector
 
-interface Api {
+@Module
+abstract class PopularMoviesActivityModule {
 
-    /**
-     * Gets popular movies of the specific [page].
-     */
-    @GET("tv/popular")
-    fun getPopular(
-        @Query("page") page: Int,
-        @Query("language") language: String = "en-US"
-    ): Single<PopularDto>
+    @MoviesScope
+    @ContributesAndroidInjector(modules = [])
+    internal abstract fun get(): PopularMoviesActivity
 }

@@ -28,5 +28,6 @@ data class MovieTable(
     val voteCount: Int,
     val backdropPath: String?,
     val posterPath: String,
-    val voteAverage: Float
+    val voteAverage: Float,
+    val sorting: Long
 )

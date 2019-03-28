@@ -14,21 +14,22 @@
  * limitations under the License.
  *
  * */
-package com.github.hadilq.movieschallenge.data.api
+package com.github.hadilq.movieschallenge.di.viewmodel
 
-import com.github.hadilq.movieschallenge.data.api.dto.PopularDto
-import io.reactivex.Single
-import retrofit2.http.GET
-import retrofit2.http.Query
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import com.github.hadilq.movieschallenge.presentation.popular.PopularMoviesViewModel
+import dagger.Binds
+import dagger.Module
+import dagger.multibindings.IntoMap
 
-interface Api {
+@Module
+abstract class ViewModelModule {
+    @Binds
+    internal abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory
 
-    /**
-     * Gets popular movies of the specific [page].
-     */
-    @GET("tv/popular")
-    fun getPopular(
-        @Query("page") page: Int,
-        @Query("language") language: String = "en-US"
-    ): Single<PopularDto>
+    @Binds
+    @IntoMap
+    @ViewModelKey(PopularMoviesViewModel::class)
+    abstract fun bindsPopularMoviesViewModel(viewModel: PopularMoviesViewModel): ViewModel
 }

@@ -15,16 +15,19 @@ object Versions {
     const val constraintLayout = "1.1.3"
     const val retrofit = "2.5.0"
     const val picasso = "2.5.2"
+    const val picassoDownloader = "1.1.0"
     const val okhttpLoggingInterceptor = "3.11.0"
     const val dagger = "2.21"
     const val room = "2.0.0-rc01"
+    const val paging = "2.0.0-rc01"
 
     //Unit Testing
     const val junit = "4.12"
     const val mockito = "1.4.0"
     const val androidXLifecycleLib = "2.0.0-rc01"
     const val robolectric = "3.8"
-    const val androidXTesting = "2.0.0"
+    const val androidXArchTesting = "2.0.0-rc01"
+    const val androidXTesting = "1.1.0"
 
     //Acceptance Testing
     const val androidXTest = "1.1.2-alpha01"

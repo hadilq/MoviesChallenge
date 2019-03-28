@@ -17,16 +17,15 @@
 package com.github.hadilq.movieschallenge.presentation.popular
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.github.hadilq.movieschallenge.domain.entity.MovieEntity
 import com.github.hadilq.movieschallenge.presentation.R
 import com.squareup.picasso.Picasso
-import gone
 import inflate
 import kotlinx.android.synthetic.main.movie.view.*
 import loadFromUrl
-import visible
 import javax.inject.Inject
 
 class MovieViewHolder(
@@ -51,17 +50,16 @@ class MovieViewHolder(
     fun onBind(item: MovieEntity?) {
         this.item = item
         item?.apply {
-            itemView.progressView.gone()
-
             backdropPath?.apply {
                 itemView.imageView.loadFromUrl(picasso, this)
             } ?: also {
-                // It shouldn't happen, so log it to the crash service
+                itemView.imageView.setImageDrawable(null)
+                Log.d("MovieViewHolder", "It shouldn't happen, so log it to the crash service. ${item.name}")
             }
             itemView.titleView.text = name
             itemView.averageRatingView.text = " $voteAverage"
-        } ?: run {
-            itemView.progressView.visible()
+        }?:let {
+            throw IllegalStateException("Item cannot be null")
         }
     }
 }

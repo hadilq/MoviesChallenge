@@ -14,21 +14,21 @@
  * limitations under the License.
  *
  * */
-package com.github.hadilq.movieschallenge.data.api
+package com.github.hadilq.movieschallenge.presentation.popular
 
-import com.github.hadilq.movieschallenge.data.api.dto.PopularDto
-import io.reactivex.Single
-import retrofit2.http.GET
-import retrofit2.http.Query
+import android.view.View
+import androidx.recyclerview.widget.RecyclerView
+import com.github.hadilq.movieschallenge.presentation.R
+import com.squareup.picasso.Picasso
+import inflate
+import javax.inject.Inject
 
-interface Api {
+class LoadingViewHolder(
+    view: View
+) : RecyclerView.ViewHolder(view) {
 
-    /**
-     * Gets popular movies of the specific [page].
-     */
-    @GET("tv/popular")
-    fun getPopular(
-        @Query("page") page: Int,
-        @Query("language") language: String = "en-US"
-    ): Single<PopularDto>
+    @Inject
+    constructor(bridge: MoviesViewHolderBridge) : this(
+        bridge.parent.inflate(R.layout.loading)
+    )
 }

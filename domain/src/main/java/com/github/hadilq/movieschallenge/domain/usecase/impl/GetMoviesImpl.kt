@@ -19,18 +19,18 @@ package com.github.hadilq.movieschallenge.domain.usecase.impl
 import androidx.paging.PagedList
 import com.github.hadilq.movieschallenge.domain.entity.MovieEntity
 import com.github.hadilq.movieschallenge.domain.entity.ResultState
-import com.github.hadilq.movieschallenge.domain.repository.ApiKeyRepository
 import com.github.hadilq.movieschallenge.domain.repository.MovieRepository
 import com.github.hadilq.movieschallenge.domain.usecase.GetMovies
 import io.reactivex.Flowable
 
 class GetMoviesImpl(
-    private val movieRepository: MovieRepository,
-    private val apiKeyRepository: ApiKeyRepository
+    private val movieRepository: MovieRepository
 ) : GetMovies {
 
-    override fun loadMovies(): Flowable<ResultState<PagedList<MovieEntity>>> {
-        ArrayList<String>().toTypedArray().map {  }
-        return movieRepository.loadMovies(apiKeyRepository.apiKey())
+    override fun loadMovies(refresh:Boolean): Flowable<ResultState<PagedList<MovieEntity>>> {
+        ArrayList<String>().toTypedArray().map { }
+        return movieRepository.loadMovies(refresh)
     }
+
+    override fun retry() = movieRepository.retry()
 }

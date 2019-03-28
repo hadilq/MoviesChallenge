@@ -35,8 +35,8 @@ fun MovieDto.map() = MovieEntity(
     popularity = popularity,
     voteCount = voteCount,
     voteAverage = voteAverage,
-    backdropPath = backdropPath,
-    posterPath = posterPath
+    backdropPath = backdropPath?.mapToBackdropUrl(),
+    posterPath = posterPath.mapToPosterUrl()
 )
 
 fun MovieTable.map() = MovieEntity(
@@ -45,20 +45,30 @@ fun MovieTable.map() = MovieEntity(
     popularity = popularity,
     voteCount = voteCount,
     voteAverage = voteAverage,
-    backdropPath = backdropPath,
-    posterPath = posterPath
+    backdropPath = backdropPath?.mapToBackdropUrl(),
+    posterPath = posterPath.mapToPosterUrl()
 )
 
 fun PopularMovieDataSource.MoviesList.map(): List<MovieTable> = ArrayList<MovieTable>().also { list ->
-    results.forEach { movie -> list.add(movie.map()) }
+    val currentTime = System.currentTimeMillis()
+    results.forEachIndexed { index, movie -> list.add(movie.map(currentTime + index)) }
 }
 
-fun MovieEntity.map() = MovieTable(
+fun MovieEntity.map(order: Long) = MovieTable(
     id = id,
     name = name,
     popularity = popularity,
     voteCount = voteCount,
     voteAverage = voteAverage,
-    backdropPath = backdropPath,
-    posterPath = posterPath
+    backdropPath = backdropPath?.mapFromBackdropUrl(),
+    posterPath = posterPath.mapFromPosterUrl(),
+    sorting = order
 )
+
+const val IMAGE_PREFIX_W500 = "https://image.tmdb.org/t/p/w500"
+const val IMAGE_PREFIX_ORIGIN = "https://image.tmdb.org/t/p/original"
+
+fun String.mapToBackdropUrl() = "$IMAGE_PREFIX_W500$this"
+fun String.mapToPosterUrl() = "$IMAGE_PREFIX_ORIGIN$this"
+fun String.mapFromBackdropUrl() = removePrefix(IMAGE_PREFIX_W500)
+fun String.mapFromPosterUrl() = removePrefix(IMAGE_PREFIX_ORIGIN)

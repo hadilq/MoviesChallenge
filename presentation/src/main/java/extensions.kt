@@ -36,5 +36,5 @@ fun ViewGroup.inflate(@LayoutRes layoutRes: Int): View =
 fun ImageView.loadFromUrl(picasso: Picasso, url: String) {
     picasso.cancelRequest(this)
     setImageDrawable(null)
-    picasso.load(url).into(this)
+    picasso.load(url).fit().centerCrop().into(this)
 }

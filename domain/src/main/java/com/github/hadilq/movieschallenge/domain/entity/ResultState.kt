@@ -18,6 +18,6 @@ package com.github.hadilq.movieschallenge.domain.entity
 
 sealed class ResultState<T>
 
-class Loading<T>(val loading: Boolean) : ResultState<T>()
-class Error<T>(val throwable: Throwable) : ResultState<T>()
-class Success<T>(val data: T) : ResultState<T>()
+data class Loading<T>(val loading: Boolean) : ResultState<T>()
+data class Error<T>(val throwable: Throwable) : ResultState<T>()
+data class Success<T>(val data: T) : ResultState<T>()

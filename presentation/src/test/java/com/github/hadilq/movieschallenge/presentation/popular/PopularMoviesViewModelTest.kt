@@ -5,10 +5,7 @@ import androidx.lifecycle.Observer
 import androidx.paging.PagedList
 import com.github.hadilq.movieschallenge.domain.entity.*
 import com.github.hadilq.movieschallenge.domain.usecase.GetMovies
-import com.nhaarman.mockito_kotlin.doReturn
-import com.nhaarman.mockito_kotlin.mock
-import com.nhaarman.mockito_kotlin.times
-import com.nhaarman.mockito_kotlin.verify
+import com.nhaarman.mockito_kotlin.*
 import io.reactivex.processors.PublishProcessor
 import org.junit.Before
 import org.junit.Rule
@@ -29,7 +26,7 @@ class PopularMoviesViewModelTest {
     fun setup() {
         getMovies = mock()
         processor = PublishProcessor.create()
-        `when`(getMovies.loadMovies()).doReturn(processor)
+        `when`(getMovies.loadMovies(any())).doReturn(processor)
 
         viewModel = PopularMoviesViewModel(getMovies)
     }
@@ -84,11 +81,11 @@ class PopularMoviesViewModelTest {
     }
 
     @Test
-    fun retrySuccess() {
+    fun refreshSuccess() {
         val observer = mock<Observer<PagedList<MovieEntity>>>()
         val pagedList = mock<PagedList<MovieEntity>>()
         viewModel.successLiveData.observeForever(observer)
-        viewModel.retry()
+        viewModel.refresh()
 
         processor.onNext(Success(pagedList))
 
@@ -96,7 +93,7 @@ class PopularMoviesViewModelTest {
     }
 
     @Test
-    fun retryAfterStartLoading() {
+    fun refreshAfterStartLoading() {
         val observer = mock<Observer<PagedList<MovieEntity>>>()
         val pagedList = mock<PagedList<MovieEntity>>()
         viewModel.successLiveData.observeForever(observer)
@@ -106,7 +103,7 @@ class PopularMoviesViewModelTest {
 
         verify(observer).onChanged(pagedList)
 
-        viewModel.retry()
+        viewModel.refresh()
 
         processor.onNext(Success(pagedList))
 

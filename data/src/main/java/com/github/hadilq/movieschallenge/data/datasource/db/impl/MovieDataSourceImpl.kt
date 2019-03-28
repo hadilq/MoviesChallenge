@@ -21,15 +21,17 @@ import com.github.hadilq.movieschallenge.data.datasource.api.PopularMovieDataSou
 import com.github.hadilq.movieschallenge.data.datasource.db.MovieDataSource
 import com.github.hadilq.movieschallenge.data.datasource.map
 import com.github.hadilq.movieschallenge.data.db.dao.MovieDao
+import com.github.hadilq.movieschallenge.data.db.table.MovieTable
 import com.github.hadilq.movieschallenge.domain.entity.MovieEntity
 
 class MovieDataSourceImpl(
     private val dao: MovieDao
 ) : MovieDataSource {
+    override fun popular(): DataSource.Factory<Int, MovieEntity> = dao.loadAll().map(MovieTable::map)
 
-    override fun popular(): DataSource.Factory<Int, MovieEntity> = dao.loadAll().map { it.map() }
-
-    override fun all(): List<MovieEntity> = dao.all().map { it.map() }
+    override fun all(): List<MovieEntity> = dao.all().map(MovieTable::map)
 
     override fun save(list: PopularMovieDataSource.MoviesList) = dao.save(*list.map().toTypedArray())
+
+    override fun deleteAll() = dao.deleteAll()
 }

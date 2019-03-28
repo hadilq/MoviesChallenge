@@ -17,11 +17,13 @@
 package com.github.hadilq.movieschallenge.presentation.popular
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.*
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.hadilq.movieschallenge.domain.entity.MovieEntity
+import com.github.hadilq.movieschallenge.presentation.BuildConfig
 import com.github.hadilq.movieschallenge.presentation.R
 import com.google.android.material.snackbar.Snackbar
 import dagger.android.support.DaggerAppCompatActivity
@@ -61,30 +63,33 @@ class PopularMoviesActivity : DaggerAppCompatActivity() {
             // item clicked
         }
         swipeView.setOnRefreshListener {
-            if (!swipeView.isRefreshing) {
-                viewModel.retry()
-            }
+            viewModel.refresh()
         }
     }
 
     private fun success(list: PagedList<MovieEntity>) {
         adapter.submitList(list)
+        if (adapter.listSize() != 0) {
+            progressView.gone()
+        }
+    }
+
+    private fun error(throwable: Throwable) {
+        if (BuildConfig.DEBUG) {
+            Log.e("PopularMoviesActivity", "An error happened!", throwable)
+        }
+        showFailure(R.string.errorMessage) { viewModel.retry() }
+    }
+
+    private fun loading(loading: Boolean) {
+        adapter.loading = loading
         swipeView.isRefreshing = false
-        if (list.isEmpty()) {
+        if (loading && adapter.listSize() == 0) {
             progressView.visible()
         } else {
             progressView.gone()
         }
     }
-
-    private fun error(@Suppress("UNUSED_PARAMETER") throwable: Throwable) {
-        showFailure(R.string.errorMessage) { viewModel.retry() }
-    }
-
-    private fun loading(loading: Boolean) {
-        adapter.endOfList = !loading
-    }
-
 
     private fun showFailure(errorMessage: Int, retry: (View) -> Unit) {
         if (snackbar?.isShown == true) {

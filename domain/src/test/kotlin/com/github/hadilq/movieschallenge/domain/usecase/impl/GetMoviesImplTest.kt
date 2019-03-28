@@ -2,12 +2,10 @@ package com.github.hadilq.movieschallenge.domain.usecase.impl
 
 import com.github.hadilq.movieschallenge.domain.repository.ApiKeyRepository
 import com.github.hadilq.movieschallenge.domain.repository.MovieRepository
-import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import org.junit.Before
 import org.junit.Test
-import org.mockito.Mockito.`when`
 
 class GetMoviesImplTest {
 
@@ -23,13 +21,12 @@ class GetMoviesImplTest {
     @Test
     fun loadMovies() {
         // Given
-        `when`(apiKeyRepository.apiKey()).doReturn("apiKey")
-        val usecase = GetMoviesImpl(movieRepository, apiKeyRepository)
+        val usecase = GetMoviesImpl(movieRepository)
 
         // When
-        usecase.loadMovies()
+        usecase.loadMovies(false)
 
         // Then
-        verify(movieRepository).loadMovies("apiKey")
+        verify(movieRepository).loadMovies(false)
     }
 }
