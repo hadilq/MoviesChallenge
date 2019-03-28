@@ -31,8 +31,8 @@ jobs:
     - run:
         name: Launch emulator
         command: >
-          cd $ANDROID_HOME/tools &&
-          export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator/lib64:${ANDROID_HOME}/emulator/lib64/qt/lib &&
+          cd $ANDROID_HOME/emulator &&
+          export LD_LIBRARY_PATH=$ANDROID_HOME/emulator/lib64:$ANDROID_HOME/emulator/lib64/qt/lib &&
           ./emulator -avd test -noaudio -no-boot-anim -no-window -accel on &&
           circle-android wait-for-boot &&
           sleep 30 &&
