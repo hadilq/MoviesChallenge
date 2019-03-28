@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/hadilq/MoviesChallenge.svg?branch=master)](https://travis-ci.org/hadilq/MoviesChallenge)
+[![CircleCI](https://circleci.com/gh/hadilq/MoviesChallenge.svg?style=svg)](https://circleci.com/gh/hadilq/MoviesChallenge)
 
 Movies Challenge
 ===
