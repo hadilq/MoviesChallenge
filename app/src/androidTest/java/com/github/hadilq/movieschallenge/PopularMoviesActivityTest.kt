@@ -5,8 +5,7 @@ import android.content.Intent
 import androidx.test.InstrumentationRegistry
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.espresso.matcher.ViewMatchers.withText
+import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.rule.ActivityTestRule
 import androidx.test.runner.AndroidJUnit4
 import com.github.hadilq.movieschallenge.data.api.Api
@@ -21,6 +20,7 @@ import com.github.hadilq.movieschallenge.di.viewmodel.ViewModelModule
 import com.github.hadilq.movieschallenge.domain.repository.MovieRepository
 import com.github.hadilq.movieschallenge.presentation.popular.PopularMoviesActivity
 import com.nhaarman.mockito_kotlin.any
+import com.nhaarman.mockito_kotlin.doAnswer
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
 import com.squareup.picasso.Picasso
@@ -30,11 +30,14 @@ import dagger.Module
 import dagger.Provides
 import dagger.android.support.AndroidSupportInjectionModule
 import io.reactivex.Single
+import io.reactivex.processors.PublishProcessor
+import org.hamcrest.Matchers.not
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito.`when`
+import java.io.IOException
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -79,6 +82,16 @@ class PopularMoviesActivityTest {
         activityRule.launchActivity(Intent())
 
         onView(withId(R.id.titleView)).check(matches(withText("one")))
+    }
+
+    @Test
+    fun launchActivityError() {
+        `when`(api.getPopular(any(), any())).doReturn(Single.error(IOException("")))
+
+        activityRule.launchActivity(Intent())
+
+        onView(withText(R.string.retry)).check(matches(isDisplayed()))
+        onView(withId(R.id.progressView)).check(matches(not(isDisplayed())))
     }
 
     @Singleton
