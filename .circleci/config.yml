@@ -42,16 +42,17 @@ jobs:
     - run:
         name: Download Dependencies
         command: ./gradlew androidDependencies
-    #    - save_cache:
-    #        paths:
-    #        - ~/.gradle
-    #        key: jars-{{ checksum "build.gradle" }}-{{ checksum  "library/build.gradle" }}
+
     - run:
         name: Run all checks
         command: ./gradlew check
     - run:
         name: Run UI Tests
         command: ./gradlew connectedAndroidTest
+    - save_cache:
+        paths:
+          - ~/.gradle
+        key: jars-{{ checksum "build.gradle" }}-{{ checksum  "library/build.gradle" }}
     - store_artifacts:
         path: library/build/reports
         destination: reports
