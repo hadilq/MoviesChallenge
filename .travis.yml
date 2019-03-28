@@ -6,19 +6,20 @@ android:
   - platform-tools
   - build-tools-$ANDROID_BUILD_TOOLS_VERSION
   - android-$ANDROID_API_LEVEL
+  - android-ANDROID_EMU_API_LEVEL
   - extra-android-support
   - extra-android-m2repository
   - extra-google-m2repository
-  - sys-img-$ANDROID_ABI-google_apis_playstore-$ANDROID_EMU_API_LEVEL
+  - sys-img-$ANDROID_ABI-google_apis-$ANDROID_EMU_API_LEVEL
 env:
   global:
   - ANDROID_API_LEVEL=26
   - ANDROID_BUILD_TOOLS_VERSION=26.0.1
-  - ANDROID_EMU_API_LEVEL=26
-  - ANDROID_ABI=x86
+  - ANDROID_EMU_API_LEVEL=25
+  - ANDROID_ABI=armeabi-v7a
   - ANDROID_TARGET=android-$ANDROID_EMU_API_LEVEL
 before_script:
-  - echo no | android create avd --force -n test -t $ANDROID_TARGET --abi google_apis_playstore/$ANDROID_ABI
+  - echo no | android create avd --force -n test -t $ANDROID_TARGET --abi google_apis/$ANDROID_ABI
   - emulator -avd test -no-skin -no-audio -no-window &
   - android-wait-for-emulator
   - adb shell input keyevent 82 &
