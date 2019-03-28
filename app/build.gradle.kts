@@ -45,7 +45,6 @@ dependencies {
     implementation(Depends.kotlin)
     implementation(Depends.appcompat)
     implementation(Depends.lifecycle)
-    implementation(Depends.coreKtx)
     implementation(Depends.constraintLayout)
     implementation(Depends.dagger)
     implementation(Depends.daggerAndroid)
