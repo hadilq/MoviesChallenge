@@ -16,7 +16,12 @@ jobs:
         command: sdkmanager --install "system-images;android-22;default;armeabi-v7a"
     - run:
         name: Accept licenses
-        command: echo "y\ny\n" | sdkmanager --licenses
+        command: >
+          mkdir -p "$ANDROID_HOME/licenses" &&
+          echo -e "\nd56f5187479451eabf01fb78af6dfcb131a6481e" > "$ANDROID_HOME/licenses/android-sdk-license" &&
+          echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" >> "$ANDROID_HOME/licenses/android-sdk-license" &&
+          echo -e "\n24333f8a63b6825ea9c5514f83c2829b004d1fee" >> "$ANDROID_HOME/licenses/android-sdk-license" &&
+          echo -e "\n84831b9409646a918e30573bab4c9c91346d8abd" > "$ANDROID_HOME/licenses/android-sdk-preview-license"
     - run:
         name: Create emulator
         command: echo "no" | avdmanager create avd -n test -k "system-images;android-22;default;armeabi-v7a"
