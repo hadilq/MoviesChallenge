@@ -53,6 +53,7 @@ class MovieViewHolder(
             backdropPath?.apply {
                 itemView.imageView.loadFromUrl(picasso, this)
             } ?: also {
+                picasso.cancelRequest(itemView.imageView)
                 itemView.imageView.setImageDrawable(null)
                 Log.d("MovieViewHolder", "It shouldn't happen, so log it to the crash service. ${item.name}")
             }

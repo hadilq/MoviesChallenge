@@ -17,7 +17,7 @@ In this project we manage it like this
 
 - `domain` module: includes the `Entity` and `Use Cases`.
 - `data` module: includes the `Gateways`, `DB`, `External Interfaces` and `Device`.
-- `presentation` includes  module: the `MVVM` architectural pattern, which is the `UI` in the diagram above.
+- `presentation` module includes: the `MVVM` architectural pattern, which is the `UI` in the diagram above.
 - `app` module: integrates all classes and assemble the apk file. Mainly the modules and providers of Dagger framework live here.
 
 By applying the DIP, dependency inversion principle, both `data` and `presentation` modules depends on the `domain` 
@@ -151,4 +151,10 @@ class App : DaggerApplication() {
         super.onCreate()
     }
 }
+```
+Build
+---
+To create an apk file you need to run
+```bash
+./gradlew clean :app:assembleDebug
 ```
