@@ -18,6 +18,7 @@ package com.github.hadilq.movieschallenge.di
 
 import com.github.hadilq.movieschallenge.presentation.popular.MoviesScope
 import com.github.hadilq.movieschallenge.presentation.popular.PopularMoviesActivity
+import com.github.hadilq.movieschallenge.presentation.popular.PopularMoviesAssistedModule
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -25,6 +26,6 @@ import dagger.android.ContributesAndroidInjector
 abstract class PopularMoviesActivityModule {
 
     @MoviesScope
-    @ContributesAndroidInjector(modules = [])
+    @ContributesAndroidInjector(modules = [PopularMoviesAssistedModule::class])
     internal abstract fun get(): PopularMoviesActivity
 }

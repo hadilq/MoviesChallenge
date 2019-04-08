@@ -16,16 +16,10 @@
  * */
 package com.github.hadilq.movieschallenge.presentation.popular
 
-import android.view.ViewGroup
-import androidx.annotation.MainThread
-import javax.inject.Inject
+import com.squareup.inject.assisted.dagger2.AssistedModule
+import dagger.Module
 
-@MoviesScope
-class MoviesViewHolderBridge @Inject constructor() {
 
-    lateinit var parent: ViewGroup
-        @MainThread
-        get
-        @MainThread
-        set
-}
+@AssistedModule
+@Module(includes = [AssistedInject_PopularMoviesAssistedModule::class])
+abstract class PopularMoviesAssistedModule
