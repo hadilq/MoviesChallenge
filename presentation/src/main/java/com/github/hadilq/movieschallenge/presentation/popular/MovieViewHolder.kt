@@ -19,14 +19,17 @@ package com.github.hadilq.movieschallenge.presentation.popular
 import android.annotation.SuppressLint
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.github.hadilq.movieschallenge.domain.entity.MovieEntity
 import com.github.hadilq.movieschallenge.presentation.R
+import com.squareup.inject.assisted.Assisted
+import com.squareup.inject.assisted.AssistedInject
 import com.squareup.picasso.Picasso
 import inflate
 import kotlinx.android.synthetic.main.movie.view.*
 import loadFromUrl
-import javax.inject.Inject
+
 
 class MovieViewHolder(
     view: View,
@@ -36,9 +39,9 @@ class MovieViewHolder(
     lateinit var listener: (MovieEntity) -> Unit
     private var item: MovieEntity? = null
 
-    @Inject
-    constructor(bridge: MoviesViewHolderBridge, picasso: Picasso) : this(
-        bridge.parent.inflate(R.layout.movie),
+    @AssistedInject
+    constructor(@Assisted parent: ViewGroup, picasso: Picasso) : this(
+        parent.inflate(R.layout.movie),
         picasso
     )
 
@@ -59,8 +62,13 @@ class MovieViewHolder(
             }
             itemView.titleView.text = name
             itemView.averageRatingView.text = " $voteAverage"
-        }?:let {
+        } ?: let {
             throw IllegalStateException("Item cannot be null")
         }
+    }
+
+    @AssistedInject.Factory
+    interface Factory {
+        fun create(parent: ViewGroup): MovieViewHolder
     }
 }

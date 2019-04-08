@@ -18,6 +18,7 @@ object Versions {
     const val picassoDownloader = "1.1.0"
     const val okhttpLoggingInterceptor = "3.11.0"
     const val dagger = "2.21"
+    const val assistedInject = "0.4.0"
     const val room = "2.0.0-rc01"
     const val paging = "2.0.0-rc01"
 

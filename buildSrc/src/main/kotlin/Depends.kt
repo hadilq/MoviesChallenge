@@ -17,6 +17,9 @@ object Depends {
     const val daggerAndroid = "com.google.dagger:dagger-android-support:${Versions.dagger}"
     const val daggerCompiler = "com.google.dagger:dagger-compiler:${Versions.dagger}"
     const val daggerProcessor = "com.google.dagger:dagger-android-processor:${Versions.dagger}"
+    const val assistedInject = "com.squareup.inject:assisted-inject-annotations-dagger2:${Versions.assistedInject}"
+    const val assistedInjectProcessor =
+        "com.squareup.inject:assisted-inject-processor-dagger2:${Versions.assistedInject}"
     const val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
     const val retrofitGsonConverter = "com.squareup.retrofit2:converter-gson:${Versions.retrofit}"
     const val retrofitRxJava2Adapter = "com.squareup.retrofit2:adapter-rxjava2:${Versions.retrofit}"
@@ -35,7 +38,7 @@ object Depends {
     const val coreTesting = "androidx.arch.core:core-testing:${Versions.androidXArchTesting}"
     const val multidexInstrumentation = "androidx.multidex:multidex-instrumentation:2.0.0"
     const val coreCommon = "androidx.arch.core:core-common:2.0.0-rc01"
-    const val coreRuntime= "androidx.arch.core:core-runtime:2.0.0-rc01"
+    const val coreRuntime = "androidx.arch.core:core-runtime:2.0.0-rc01"
 
     const val testRunner = "androidx.test:runner:${Versions.androidXTest}"
     const val testRules = "androidx.test:rules:${Versions.androidXTest}"

@@ -34,6 +34,7 @@ dependencies {
     kapt(Depends.daggerProcessor)
     kapt(Depends.lifecycleCompiler)
     kapt(Depends.roomCompiler)
+    kapt(Depends.assistedInjectProcessor)
 
     kaptAndroidTest(Depends.daggerCompiler)
     kaptAndroidTest(Depends.daggerProcessor)
@@ -48,6 +49,7 @@ dependencies {
     implementation(Depends.constraintLayout)
     implementation(Depends.dagger)
     implementation(Depends.daggerAndroid)
+    implementation(Depends.assistedInject)
     implementation(Depends.rxJava)
     implementation(Depends.room)
     implementation(Depends.roomRuntime)

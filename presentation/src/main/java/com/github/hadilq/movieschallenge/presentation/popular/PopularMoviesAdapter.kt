@@ -24,14 +24,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.github.hadilq.movieschallenge.domain.entity.MovieEntity
 import com.github.hadilq.movieschallenge.presentation.R
 import javax.inject.Inject
-import javax.inject.Provider
 
 @MoviesScope
 class PopularMoviesAdapter @Inject constructor(
-    private val movieProvider: Provider<MovieViewHolder>,
-    private val loadingProvider: Provider<LoadingViewHolder>,
-    private val bridge: MoviesViewHolderBridge
-) : PagedListAdapter<MovieEntity, RecyclerView.ViewHolder>(MOVIES_DIFF) {
+    private val movieFactory: MovieViewHolder.Factory,
+    private val loadingFactory: LoadingViewHolder.Factory
+    ) : PagedListAdapter<MovieEntity, RecyclerView.ViewHolder>(MOVIES_DIFF) {
 
     lateinit var listener: (MovieEntity) -> Unit
 
@@ -55,14 +53,13 @@ class PopularMoviesAdapter @Inject constructor(
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        bridge.parent = parent
         return when (viewType) {
             R.layout.movie -> {
-                val vh = movieProvider.get()
+                val vh = movieFactory.create(parent)
                 vh.listener = listener
                 vh
             }
-            R.layout.loading -> loadingProvider.get()
+            R.layout.loading -> loadingFactory.create(parent)
             else -> throw IllegalStateException("Unknown type $viewType")
         }
     }

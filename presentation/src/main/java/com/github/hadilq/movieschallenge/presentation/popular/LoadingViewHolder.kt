@@ -17,18 +17,25 @@
 package com.github.hadilq.movieschallenge.presentation.popular
 
 import android.view.View
+import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.github.hadilq.movieschallenge.presentation.R
-import com.squareup.picasso.Picasso
+import com.squareup.inject.assisted.Assisted
+import com.squareup.inject.assisted.AssistedInject
 import inflate
-import javax.inject.Inject
+
 
 class LoadingViewHolder(
     view: View
 ) : RecyclerView.ViewHolder(view) {
 
-    @Inject
-    constructor(bridge: MoviesViewHolderBridge) : this(
-        bridge.parent.inflate(R.layout.loading)
+    @AssistedInject
+    constructor(@Assisted parent: ViewGroup) : this(
+        parent.inflate(R.layout.loading)
     )
+
+    @AssistedInject.Factory
+    interface Factory {
+        fun create(parent: ViewGroup): LoadingViewHolder
+    }
 }

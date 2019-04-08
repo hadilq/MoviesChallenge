@@ -24,6 +24,7 @@ dependencies {
     implementation project(':domain')
 
     kapt Depends.lifecycleCompiler
+    kapt Depends.assistedInjectProcessor
 
     implementation Depends.appcompat
     implementation Depends.coreKtx
@@ -35,6 +36,7 @@ dependencies {
     implementation Depends.rxJava
     implementation Depends.dagger
     implementation Depends.daggerAndroid
+    implementation Depends.assistedInject
     implementation Depends.annotations
     implementation(Depends.paging, {
         exclude group: 'androidx.annotation', module: 'annotation'
